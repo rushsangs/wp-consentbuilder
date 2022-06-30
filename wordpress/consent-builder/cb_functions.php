@@ -17,10 +17,11 @@ function console_log($output, $with_script_tags = true) {
     }
     echo $js_code;
 }
-function consentbuilder_update_post($post_id, $content, $update) {
-	write_log($post_id);
+function consentbuilder_update_post($post_id, $new, $old) {
+	write_log("cb update begin");
+	// write_log($old);
 	// $post = get_post($post_id);
-    // $content = $post->post_content; 
+    $content = $new->post_content; 
 	write_log($content);
     $dom = new DOMDocument();
     $dom->loadHTML($content);
