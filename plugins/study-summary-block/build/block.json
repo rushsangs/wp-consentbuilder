@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "consent-form-block/study-summary-block",
+  "version": "0.1.0",
+  "title": "Study Summary",
+  "category": "text",
+  "icon": "smiley",
+  "description": "The ICF must include a concise and focused presentation of key information including: Add these required elements below: A statement that participation in the research study is voluntary Purpose of the study A high-level description of the study (number of study centers, number of subjects, masking, duration) A brief description of the key efficacy, effectiveness and safety endpoints",
+  "supports": {
+    "html": false
+  },
+  "textdomain": "study-summary-block",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "attributes": {
+    "content": {
+      "type": "string",
+      "source": "html",
+      "selector": ".text-content"
+    }
+  }
+}

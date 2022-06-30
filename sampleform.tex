@@ -1,0 +1,1346 @@
+%% ***********************************************************************************************************
+%% University of Utah TIC
+%%
+%% Consent Template for generating Consent/Parental Permission/Teen Assent, and Authorization Documents
+%%
+%% Authors: Patrick Harris
+%%
+%% Version: 5.0  01-XX-2022
+%% **********************************************************************************************************
+%% Based on Previous versions created by Rene Enriquez and Patrick Harris
+%%
+%% **********************************************************************************************************
+
+\documentclass[11pt]{article}
+
+%%*************************************************************************
+%% GENERAL PACKAGES
+%%*************************************************************************
+
+\usepackage{amsmath,amssymb}            % mathmode symbols
+\usepackage{ifthen}                     % if-then-else statements; boolean controls
+\usepackage{soul}                       % font type commands: \bf, \it etc.
+\usepackage{ulem}                       % allows \uline command
+\usepackage{paralist}                   % compact list envs
+\usepackage{enumitem}                   % comprehensive list env control/customization
+\usepackage{graphicx}                   % inserting images
+\usepackage{fancyhdr}                   % header customization
+\usepackage{float}                      % specific floater placement
+\usepackage{xcolor}                     % increased color options
+\usepackage{colortbl}                   % colors in tables
+\usepackage{booktabs}                   % professional looking tables
+\usepackage{multicol}                   % multicolumn
+\usepackage{tabularx}                   % tabularx
+\usepackage{lastpage}                   % referencing last page
+\usepackage{adjustbox}                  % increased macros for adjusting boxes
+
+%% To avoid "widowed" paragraph lines.
+\usepackage[all]{nowidow}
+
+ %% Customization of Section/subsection headers
+\usepackage{titlesec}
+
+%% The following packages, in conjunction with package graphicx,
+%% work to produce the IRB Space water mark
+\usepackage{type1cm}
+\usepackage{eso-pic}
+\usepackage{color}
+
+
+%%*************************************************************************
+%% DOCUMENT GEOMETRY SPECIFICATIONS
+%%*************************************************************************
+\usepackage{geometry}
+
+\parskip10pt
+\parindent0pt
+
+\newgeometry{top=0.25in,%                % top margin
+            bottom=2.0in,%                % IRB space
+            width=468pt,%               % width of textbody
+            left=1.0in,%                % left margin
+            footskip=15pt,%               % footskip is space between body and footer
+            headsep=0.65in,%
+            includeheadfoot}
+\savegeometry{medicalrecord}
+
+\newgeometry{top=0.25in,%                % top margin
+            bottom=2.0in,%                % IRB space
+            width=468pt,%               % width of textbody
+            left=1.0in,%                % left margin
+            footskip=15pt,%               % footskip is space between body and footer
+            headsep=1in,%
+            includeheadfoot}
+\savegeometry{logo}
+
+\newgeometry{top=0.25in,%                % top margin
+            bottom=2.0in,%               % IRB space
+            width=468pt,%               % width of textbody
+            left=1.0in,%                % left margin
+            footskip=15pt,%               % footskip is space between body and footer
+            includeheadfoot}
+\savegeometry{nologo}
+
+
+
+
+
+
+
+%% hyperref should be loaded last except in special circumstances
+\usepackage[colorlinks=true,%
+            linkcolor=black,%
+            citecolor=blue,%
+            urlcolor=blue]{hyperref}
+
+
+\UseRawInputEncoding                    % Allows obtuse characters to be ignored by compiler so it still creates a pdf
+
+
+%%*************************************************************************
+%% ESTABLISHING BOOLEAN NAMES
+%%*************************************************************************
+
+\newboolean{add_language_yn}
+\newboolean{alt_proc_yn}
+\newboolean{auth_hipaa_yn}
+\newboolean{barcode_yn}
+\newboolean{biospecimens_yn}
+\newboolean{cnsnt_over18_yn}
+\newboolean{coi}
+\newboolean{cost_compensation_yn}
+\newboolean{hipaa_separate_auth_yn}
+\newboolean{hipaa_site_language_yn}
+\newboolean{institutional_hipaa}
+\newboolean{investigator_withdraw_yn}
+\newboolean{irb_number_yn}
+\newboolean{irb_watermark}
+\newboolean{lar_statement}
+\newboolean{new_info_yn}
+\newboolean{nih_race_et_yn}
+\newboolean{non_eng_witness_statement}
+\newboolean{patient_info_header_yn}
+\newboolean{person_to_contact_yn}
+\newboolean{person_to_contact_irb_yn}
+\newboolean{pi_address_yn}
+\newboolean{print_part_one_only_yn}
+\newboolean{print_part_two_only_yn}
+\newboolean{req_initial}
+\newboolean{req_logo}
+\newboolean{req_version_date}
+\newboolean{research_related_injury_yn}
+\newboolean{site_cost_compensation_yn}
+\newboolean{study_confidentiality_yn}
+\newboolean{study_logo_yn}
+\newboolean{study_procedure_images_yn}
+\newboolean{time_of_consent}
+\newboolean{tissue_banking}
+\newboolean{tissue_banking_yn_study}
+\newboolean{uu_sirb_yn}
+\newboolean{voluntary_participation_yn}
+\newboolean{witness_statement}
+
+%% Setting boolean commands: "true" or "false"
+%%
+%%  is read by java script and replaced
+%% with "true" or "falsed" determined by user input from REDCap.
+
+\setboolean{add_language_yn}{false}
+\setboolean{alt_proc_yn}{false}
+\setboolean{barcode_yn}{false}
+\setboolean{biospecimens_yn}{false}
+\setboolean{cnsnt_over18_yn}{true}
+\setboolean{coi}{false}
+\setboolean{cost_compensation_yn}{true}
+\setboolean{hipaa_separate_auth_yn}{false}
+\setboolean{hipaa_site_language_yn}{false}
+\setboolean{investigator_withdraw_yn}{true}
+\setboolean{irb_number_yn}{true}
+\setboolean{irb_watermark}{true}
+\setboolean{lar_statement}{false}
+\setboolean{new_info_yn}{true}
+\setboolean{nih_race_et_yn}{false}
+\setboolean{non_eng_witness_statement}{false}
+\setboolean{patient_info_header_yn}{false}
+\setboolean{person_to_contact_yn}{true}
+\setboolean{person_to_contact_irb_yn}{true}
+\setboolean{pi_address_yn}{true}
+\setboolean{print_part_one_only_yn}{true}
+\setboolean{print_part_two_only_yn}{true}
+\setboolean{req_initial}{false}
+\setboolean{req_logo}{true}
+\setboolean{req_version_date}{false}
+\setboolean{research_related_injury_yn}{false}
+\setboolean{site_cost_compensation_yn}{false}
+\setboolean{study_confidentiality_yn}{true}
+\setboolean{study_procedure_images_yn}{false}
+\setboolean{study_logo_yn}{false}
+\setboolean{tissue_banking_yn_study}{false}
+\setboolean{time_of_consent}{false}
+\setboolean{voluntary_participation_yn}{true}
+\setboolean{uu_sirb_yn}{true}
+\setboolean{witness_statement}{false}
+
+
+\ifthenelse{\boolean{barcode_yn}}{
+
+\usepackage[code=Code39,%
+            X=0.5mm,%
+            ratio=2.25,%
+            H=1cm]{makebarcode}         % for making barcodes
+
+
+\usepackage[firstpageonly,
+            hanchor=l,
+            vanchor=t,
+            pos={0.25in,0.5\paperheight}]{draftwatermark}
+\usepackage{etoolbox}
+
+\SetWatermarkAngle{-90}
+\SetWatermarkLightness{0.0}
+\SetWatermarkFontSize{0.75cm}
+%\SetWatermarkScale{8}
+\SetWatermarkText{\barcode{}\\ \textbf{}}
+}
+{}
+
+%%*************************************************************************
+%% CUSTOMIZATION OF SECTION/SUBSECTION HEADERS
+%%*************************************************************************
+\renewcommand{\thesection}{}                        %% Removes # of section
+\titleformat{\section}
+    {\large\bfseries}{\thesection}{0pt}{}           %% Format of section header
+\titlespacing*{\section}{0pt}{0pt}{-08pt}%      %% Spacing around section header
+
+\renewcommand{\thesubsection}{}                     %% Removes # of subsection
+\titleformat{\subsection}
+    {\large\bfseries}{\thesubsection}{0pt}{}        %% Format of subsection header
+\titlespacing*{\subsection}{0pt}{0pt}{-08pt}%   %% Spacing around subsection header
+
+\renewcommand{\thesubsubsection}{}                  %% Removes # of subsubsection
+\titleformat{\subsubsection}
+    {\large\bfseries}{\thesubsubsection}{0pt}{}     %% Format of subsubsection header
+\titlespacing*{\subsubsection}{0pt}{0pt}{-08pt}% %% Spacing around subsubsection header
+
+%%*************************************************************************
+%% HEADER AND FOOTER DEFINITIONS
+%%*************************************************************************
+
+\fancypagestyle{FullDocHeader}{%
+        \fancyhf{}%
+        \fancyhead[L]{%
+                \ifthenelse{\boolean{study_logo_yn}}%
+                {%
+                \includegraphics[height=1.5cm]{}
+                }%
+                {~}%
+                \newline\ifthenelse{\boolean{irb_number_yn}}{\footnotesize IRB \#: 2022-0472 }{}
+                \newline\footnotesize{FAAN-C}%
+        }%
+        \fancyhead[R]{%
+                \ifthenelse{\boolean{patient_info_header_yn}}{%
+                        {~\hfill\footnotesize\begin{tabular}{ll@{}}
+                                MED. REC. NO. & \rule{2cm}{0.1mm} \\
+                                NAME & \rule{2cm}{0.1mm} \\
+                                BIRTHDATE & \rule{2cm}{0.1mm} \\
+                                \end{tabular}
+                                \newline}
+                        }%
+                        {}%
+                ~\hfill\footnotesize%
+                \ifthenelse{\boolean{req_initial}}%
+                {%
+                \rule{1cm}{0.1mm}~\textbf{Initials}%
+                }%
+                {}%
+                \newline Page \thepage ~of \pageref{LastPage}
+        }%
+        \fancyfoot[L]{%
+                \textcolor[gray]{0.9}{\rule{\textwidth}{0.4pt}}  %% "1.0" is White, "0.0" is Black
+        }%
+}
+
+\fancypagestyle{PartTwoLogo}{%
+        \fancyhf{}%
+        \fancyhead[L]{%
+                \ifthenelse{\boolean{req_logo}}%
+                {%
+                \includegraphics[height=1.5cm]{UHealthhorizontalpngred.png}
+                }%
+                {~}%
+                \newline\ifthenelse{\boolean{irb_number_yn}}{\footnotesize IRB \#: 2022-0472 }{}
+                \newline\footnotesize{FAAN-C}%
+        }%
+        \fancyhead[R]{%
+                \ifthenelse{\boolean{patient_info_header_yn}}{%
+                        {~\hfill\footnotesize\begin{tabular}{ll@{}}
+                                MED. REC. NO. & \rule{2cm}{0.1mm} \\
+                                NAME & \rule{2cm}{0.1mm} \\
+                                BIRTHDATE & \rule{2cm}{0.1mm} \\
+                                \end{tabular}
+                                \newline}
+                        }%
+                        {}%
+                ~\hfill\footnotesize%
+                \ifthenelse{\boolean{req_initial}}%
+                {%
+                \rule{1cm}{0.1mm}~\textbf{Initials}%
+                }%
+                {}%
+                \newline Page \thepage ~of \pageref{LastPage}
+        }%
+        \fancyfoot[L]{%
+                \textcolor[gray]{0.9}{\rule{\textwidth}{0.4pt}}  %% "1.0" is White, "0.0" is Black
+        }%
+}
+
+
+%%*************************************************************************
+%% SIGNATURE BLOCK MACROS
+%%*************************************************************************
+
+\newcommand{\Sig}[1]{%
+\setlength\extrarowheight{1pt}
+\begin{tabular}{@{}>{\raggedright}p{0.5\textwidth}}
+\rule{0.48\textwidth}{0.1mm} \\
+#1 \\
+\end{tabular}
+}
+
+\newcommand{\SigDate}[1]{%
+\setlength\extrarowheight{1pt}
+\begin{tabular}{@{}>{\raggedright}p{0.5\textwidth}>{\raggedright\arraybackslash}p{0.2\textwidth}}
+\rule{0.48\textwidth}{0.1mm} &  \rule{0.2\textwidth}{0.1mm} \\
+#1 &  Date \\
+\end{tabular}
+}
+
+\newcommand{\SigDateTime}[1]{%
+\setlength\extrarowheight{1pt}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright}p{0.5\textwidth}>{\raggedright}X>{\raggedright\arraybackslash}p{0.2\textwidth}@{}}
+\rule{0.48\textwidth}{0.1mm} &  \rule{0.2\textwidth}{0.1mm} &  \rule{0.2\textwidth}{0.1mm} \\
+#1 & Date & Time AM/PM\\
+\end{tabularx}
+}
+
+
+
+\begin{document}
+
+
+
+\ifthenelse{\boolean{study_logo_yn} \OR \boolean{req_logo}}{\loadgeometry{logo}}{\ifthenelse{\boolean{patient_info_header_yn}}{\loadgeometry{medicalrecord}}{\loadgeometry{nologo}}}
+
+\ifthenelse{\boolean{study_logo_yn}}%
+{%
+\pagestyle{FullDocHeader}
+}%
+{%
+\pagestyle{PartTwoLogo}
+}%
+
+
+
+%%*************************************************************************
+%% IRB WATERMARK INFORMATION
+%%*************************************************************************
+
+%% \makeatletter and \makeatother allow "@" to be used in watermark options
+%
+%% \makebox(x,y) is center location of water mark. (0,0) is center of page. Measured in pts.
+%% \rotatebox{<degree>} determines rotation: 0 is horizontal, 90 vertical.
+%% \textcolor[gray] determines color.
+%% \fontsize{1cm}{1cm} determines size of font.
+%% \selectfont{PUT WATERMARK VERBIAGE HERE}
+%
+%% DO NOT ALTER OTHER PARTS OF WATERMARK UNLESS NECESSARY %%
+
+\makeatletter
+\ifthenelse{\boolean{irb_watermark}}
+    {%
+          \AddToShipoutPicture{%
+            \setlength{\@tempdimb}{.5\paperwidth}%
+            \setlength{\@tempdimc}{.5\paperheight}%
+            \setlength{\unitlength}{1pt}%
+            \put(\strip@pt\@tempdimb,\strip@pt\@tempdimc){%
+                \makebox(0,-800){\rotatebox{0}{\textcolor[gray]{0.9}%
+                {\fontsize{1cm}{1cm}\selectfont{}}}}%
+                }%
+            }%
+    }%
+    {}%
+\makeatother
+
+
+%%*************************************************************************
+%% DOCUMENT TITLE INFORMATION
+%%*************************************************************************
+%% TITLE OF DOCUMENT BOOLEAN OPTIONS %%
+
+\begin{center}
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Informed Consent Document for Research} \and \boolean{print_part_one_only_yn}}
+{%
+\textbf{\Large Informed Consent Document for Research}
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Consent} \and \boolean{print_part_one_only_yn}}
+{%
+\textbf{\Large Consent Document}
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Consent and Parental Permission} \and \boolean{print_part_one_only_yn}}
+{%
+\textbf{\Large Consent, Parental Permission and Authorization Document}
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Consent, Parental Permission and Teen Assent} \and \boolean{print_part_one_only_yn}}
+{%
+\textbf{\Large Consent, Parental Permission, Teen Assent and} \\
+\textbf{\Large Authorization Document}
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Parental Permission} \and \boolean{print_part_one_only_yn}}
+{%
+\textbf{\Large Parental Permission and Authorization Document}
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Parental Permission and Teen Assent} \and \boolean{print_part_one_only_yn}}
+{%
+\textbf{\Large Parental Permission, Teen Assent and Authorization Document}
+}%
+{}%
+\end{center}
+
+%%*************************************************************************
+%% STUDY SPECIFIC INFORMATION - PART 1
+%%*************************************************************************
+
+
+%% Definitions of columns for tabularx
+\ifthenelse{\boolean{print_part_one_only_yn}}%
+{%
+\newcolumntype{Y}{>{\bfseries\raggedright\hsize=0.175\textwidth\arraybackslash}X}
+\newcolumntype{Z}{>{\bfseries\raggedright\arraybackslash}X}
+
+\begin{tabularx}{\textwidth}{ Y Z }
+
+    Study Title:                                & {The Follow-up Automatically vs As-Needed Comparison (FAAN-C) Trial } \\
+    & \\
+    Version Date:                               & {20APR2022}\\
+    & \\
+    Source of Support:                          & {PCORI - Patient-centered Outcomes Research Institute }
+
+\end{tabularx}
+\rule{\textwidth}{0.1mm}
+
+\begin{center}
+\textbf{\large Part 1 of 2: MASTER CONSENT}
+\end{center}
+
+}%
+{}%
+
+%%*************************************************************************
+%% CONSENT DEFINITIONS
+%%*************************************************************************
+
+%% CONSENT DEFINITION OPTIONS %%
+
+\newcommand{\defconsent}{%
+\textbf{Consent:} This is a consent form for participation. It provides a summary of the information the
+research team will discuss with you. If you decide that you would like to participate in this
+research study, you would sign this form to confirm your decision. If you sign this form,
+you will receive a signed copy of this form for your records.
+}
+
+\newcommand{\defparent}{%
+\textbf{Parents/Guardians:} You have the option of having your child or teen join a research study. This is
+a parental permission form. It provides a summary of the information the research team will discuss with you.
+If you decide that your child can take part in this study, you would sign this form to confirm your decision.
+If you sign this form, you will receive a signed copy for your records.
+}
+
+\newcommand{\defassent}{%
+\textbf{Assent Teen Participants:} This form also serves as an assent form. That means that if you choose to
+take part in this research study, you would sign this form to confirm your choice. Your parent or guardian
+would also need to give their permission and sign this form for you to join the study.
+}
+
+\newcommand{\defcontinued}{%
+\textbf{Consent for Continued Participation (Participants who turn 18 during the study):}
+This is a consent form for continued participation. It provides a summary of the information the
+research team will discuss with you. If you decide that you would like to continue participating in
+this research study, you would sign this form to confirm your decision. If you sign this form, you
+will receive a signed copy of this form for your records.
+}
+
+%% CONSENT DEFINITION BOOLEAN OPTIONS %%
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Informed Consent Document for Research} \or \equal{Consent, Parental Permission and Teen Assent}{Consent}}%
+{%
+\defconsent
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Consent and Parental Permission}}%
+{%
+\defconsent
+
+\defparent
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Consent, Parental Permission and Teen Assent}}%
+{%
+\defconsent
+
+\defparent
+
+\defassent
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Parental Permission}}%
+{%
+\defparent
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Parental Permission and Teen Assent}}%
+{%
+\defparent
+
+\defassent
+}%
+{}%
+
+\ifthenelse{\boolean{cnsnt_over18_yn}}%
+{%
+\defcontinued
+}%
+{}%
+
+%%*************************************************************************
+%% SUMMARY
+%%*************************************************************************
+\ifthenelse{\boolean{print_part_one_only_yn}}%
+{%
+\section{SUMMARY}
+\label{sec:summary}
+You are being invited to take part in a research study. This study is a multi-site study, meaning it will take place
+at several different locations. Because this is a multi-site study this consent form includes two parts. Part 1 of
+this consent form is the Master Consent and includes information that applies to all study sites. Part 2 of the
+consent form is the Study Site Information and includes information specific to the study site where you are being
+asked to enroll. Both parts together are the legal consent form and must be provided to you.
+
+{You and your child are being asked to take part in a research study. Participating in the study is voluntary. This means you can choose whether or not you want your child to continue. 
+
+Before you decide it is important for you to know why the research is being done and what it will involve. Please take time to read the following information carefully. Ask us if there is anything that is not clear or if you would like more information. 
+Take time to decide whether or not you will allow your child to take part in this study. If you decide to allow your child to participate in the study, you will be asked to sign this form.
+
+This study involves children who are temporarily ill. The illness is a common infection like pneumonia, skin and soft tissue infection, urinary tract infection, or gastroenteritis.  The purpose of this study is to compare two types of follow-up strategies for these children: 1) Automatic follow-up, in which the child is told to visit their regular doctor within 7 days of leaving the hospital even if they are better. 2) As-needed follow-up, in which the child's family pursues a wait and see approach and only makes a follow-up appointment if the child is not getting better at home or is getting worse. Both approaches can work well. Both are used by doctors.  We want to figure out which one is best for children and their families. 
+
+}
+}%
+{}%
+
+%%*************************************************************************
+%% BACKGROUND
+%%*************************************************************************
+\ifthenelse{\boolean{print_part_one_only_yn}}%
+{%
+\section{STUDY BACKGROUND}
+\label{sec:background}
+{  \textbf{\textit{Why is this research being done?}} 
+When a child leaves the hospital, doctors at the hospital routinely tell parents to schedule a follow-up visit with their child's regular doctor.  The visit usually happens within one week. Families visit the doctor even if the child's symptoms improve or they get better. This is called automatic follow-up. These appointments have potential benefits.  During these visits, the child's doctor can assess the child's recovery and change the treatment, if needed. The doctor can also talk to the child and their family. 
+However, follow-up visits can be hard for families. Often, parents have already taken time away from work and other responsibilities while their child is hospitalized. A routine follow-up visit can mean more missed work for parents, missed school for the child, and increased costs from copays and travel to the visit. 
+A different approach is as-needed follow-up. This is when the doctor tells the parents if their child continues to get better, they do not need a follow-up appointment. Parents are also instructed to take their child to a follow-up visit if they do not improve or get worse. In other words, as-needed follow-up empowers families to decide if and when their child needs a follow-up appointment.
+}
+}%
+{}%
+
+%%*************************************************************************
+%% NUMBER OF PARTICIPANTS
+%%*************************************************************************
+\ifthenelse{\boolean{print_part_one_only_yn}}%
+{%
+\section{NUMBER OF PARTICIPANTS}
+\label{sec:numberofparticipants}
+{We plan to study 2,674  patients from 10 hospitals across the United States. Enrollment will take place over 5 years. No one will be included or prevented from participating based on gender, race, color, economic status, or national origin.}
+}%
+{}%
+
+%%*************************************************************************
+%% STUDY PROCEDURES
+%%*************************************************************************
+\ifthenelse{\boolean{print_part_one_only_yn}}%
+{%
+\section{STUDY PROCEDURES}
+\label{sec:studyprocedures}
+{  \textbf{\textit{What happens in this study?}} 
+As a parent and/or guardian you will be asked to participate in answering a series of questions as your role as a caregiver. If you choose to enroll your child into this study, a parent interview will take place. This interview will occur while you are at the hospital.  We will ask for information about your child like age, race, ethnicity, financial hardship.
+At the time of hospital discharge, your child will be randomly assigned to either as-needed follow-up or automatic follow-up. Random means assigned by chance, like the flip of a coin. You have a 50-50 chance of being in either group.  We will inform you what follow-up group you are assigned to. 
+The instructions for the follow-ups are below:
+ 
+\begin{compactitem}
+\item\uline{As-needed follow-up} "You do not need to schedule a follow-up visits with your child's regular doctor. If your child's illness continues to improve, you do not need to have a visit with your child's regular doctor. If your child's illness does not seem to be getting better or you develop any new concerns, we recommend that you contact your child's regular doctor. Discuss with the doctor whether a follow-up visit might be necessary."
+\item\uline{Automatic follow-up} "Please schedule a follow-up visit with your child's regular doctor before leaving the hospital. Please schedule the visit to occur within the next 7 days and plan to attend the visit even if your child's illness is getting better."
+\end{compactitem}
+
+After leaving the hospital you will be asked to complete four surveys.  The surveys will be sent to you: 7 days post-discharge, 14-days post-discharge, 28 days post-discharge, and 180 days post-discharge. We can text or email you survey reminders.  If surveys are not completed, we will call you to remind you to complete the survey.  
+A study summary will be sent to your regular doctor. They will be notified of your child's enrollment into the study and to which follow-up arm you are randomized to. 
+The researchers will continue to collect your child's medical information at least 28 days after hospital discharge.}
+}%
+{}%
+
+%%*************************************************************************
+%% ALTERNATIVE PROCEDURES
+%%*************************************************************************
+\ifthenelse{\boolean{alt_proc_yn} \and \boolean{print_part_one_only_yn}}%
+{%
+\section{ALTERNATIVE PROCEDURES}
+\label{sec:alternativeprocedures}
+{}
+}%
+{}%
+
+%%*************************************************************************
+%% RISKS
+%%*************************************************************************
+\ifthenelse{\boolean{print_part_one_only_yn}}%
+{%
+\section{RISKS}
+\label{sec:risks}
+{There is very little risk in participating in this study.  There is a slight risk to you if someone outside the team illegally obtained your survey data thereby breaking confidentiality.  If confidentiality is broken, there is an extremely small risk that information provided to us could be used improperly.  We will take every possible measure to protect your privacy and confidentiality.}
+}%
+{}%
+
+%%*************************************************************************
+%% BENEFITS
+%%*************************************************************************
+\ifthenelse{\boolean{print_part_one_only_yn}}%
+{%
+\section{BENEFITS}
+\label{sec:benefits}
+{There are no direct benefits to you and your child from your taking part in this study. The information we get from this study may help us treat future patients.}
+}%
+{}%
+
+%%*************************************************************************
+%% INVESTIGATOR WITHDRAW PARTICIPANTS
+%%*************************************************************************
+\ifthenelse{\boolean{investigator_withdraw_yn} \and \boolean{print_part_one_only_yn}}%
+{%
+\section{WITHDRAWAL OF PARTICIPATION}
+\label{sec:righttowithdraw}
+{The doctors treating your child can stop your child's participation in the study if they feel this is best for your child's safety. If this happened, they would treat your child following standard care and best judgment.}
+}%
+{}%
+
+%%*************************************************************************
+%% VOLUNTARY PARTICIPATION
+%%*************************************************************************
+\ifthenelse{\boolean{voluntary_participation_yn} \and \boolean{print_part_one_only_yn}}%
+{%
+\section{VOLUNTARY PARTICIPATION}
+\label{sec:voluntaryparticipation}
+{  \textbf{\textit{What happens if I choose not to continue in the study?}} 
+Being in this study is entirely voluntary.  You may withdraw your child from the study at any time. If you decide to withdraw your child's participation, it will not affect your child's current or future medical care in any way. If you choose not to continue, no further information will be collected about your child. We will continue to use the data we have already collected. 
+
+  \textbf{\textit{What if I decide to Not Participate after I sign the Consent and Authorization Form?}} 
+You can tell us anytime that you do not want your child to be in this study and do not want us to use your child's health information. You can also tell us in writing. If you change your mind, we will not be able to collect new information about your child, and your child will be withdrawn from the research study. However, we can continue to use information we have already started to use in our research, as needed to maintain the integrity of the research.
+
+This authorization does not have an expiration date. You have a right to information used to make decisions about your child's health care. However, your information from this study will not be available during the study; it will be available after the study is finished}
+}%
+{}%
+
+%%*************************************************************************
+%% NEW INFORMATION
+%%*************************************************************************
+\ifthenelse{\boolean{new_info_yn} \and \boolean{print_part_one_only_yn}}%
+{%
+\section{NEW INFORMATION}
+\label{sec:newinfo}
+{You will be told of any new information discovered during your child's participation that may affect your choice to continue in the study.  We may contact you when the study is completed to share the results. }
+}%
+{}%
+
+%%*************************************************************************
+%% BIOSPECIMENS
+%%*************************************************************************
+\ifthenelse{\boolean{biospecimens_yn} \and \boolean{print_part_one_only_yn}}%
+{%
+\section{BIOSPECIMENS}
+\label{sec:biospecimens}
+{}
+}%
+{}%
+
+%%*************************************************************************
+%% TISSUE BANKING
+%%*************************************************************************
+\ifthenelse{\boolean{tissue_banking_yn_study} \and \boolean{print_part_one_only_yn}}%
+{%
+\section{STORAGE FOR FUTURE USE}
+\label{sec:tissuebanking}
+{}
+}%
+{}%
+
+%%*************************************************************************
+%% COSTS AND COMPENSATION TO PARTICIPANTS
+%%*************************************************************************
+\ifthenelse{\boolean{cost_compensation_yn} \and \boolean{print_part_one_only_yn}}%
+{%
+\section{COSTS AND COMPENSATION TO PARTICIPANTS}
+\label{sec:costsandcompensation}
+{You will receive a \$20.00 gift card at enrollment (following the completion of the parent survey) and an additional \$20.00 gift card for answering the 4 subsequent study-related surveys. This will equate to \$100.00 in total. 
+
+However, medical care received during this hospital visit and potential follow-up visits will still be billed to you and/or your insurance according to hospital policy.  }
+}%
+{}%
+
+
+%%*************************************************************************
+%% SINGLE IRB CONTACT INFORMATION
+%%*************************************************************************
+
+\ifthenelse{\boolean{uu_sirb_yn} \and \boolean{print_part_one_only_yn}}%
+{%
+\section{SINGLE IRB CONTACT}
+\label{sec:singleirbcontact}
+\textbf{Institutional Review Board:} The University
+of Utah Institutional Review Board (IRB) is serving
+as the single IRB (SIRB) for this study. Contact the SIRB
+if you have questions, complaints or concerns which
+you do not feel you can discuss with the investigator.
+The University of Utah IRB may be reached by phone at
+(801) 581-3655 or by e-mail at
+\href{mailto:irb@hsc.utah.edu}{irb@hsc.utah.edu}.
+}%
+{%
+{}
+}
+
+
+%%*************************************************************************
+%% CREATE NEW PAGE IF TWO PART CONSENT
+%%*************************************************************************
+\ifthenelse{\boolean{print_part_one_only_yn} \and \boolean{print_part_two_only_yn}}%
+{%
+\newpage
+}%
+{}%
+
+
+\ifthenelse{\boolean{req_logo} \and \boolean{study_logo_yn}}
+{%
+\pagestyle{PartTwoLogo}
+}%
+{}%
+
+
+%%*************************************************************************
+%% SITE SPECIFIC ADDITIONAL INFORMATION ABOUT THE STUDY - PART 2
+%%*************************************************************************
+
+
+\begin{center}
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Informed Consent Document for Research} \and \boolean{print_part_two_only_yn}}
+{%
+{\bf\Large Informed Consent Document for Research}
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Consent} \and \boolean{print_part_two_only_yn}}
+{%
+{\bf\Large Consent Document}
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Consent and Parental Permission} \and \boolean{print_part_two_only_yn}}
+{%
+{\bf\Large Consent, Parental Permission and Authorization Document}
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Consent, Parental Permission and Teen Assent} \and \boolean{print_part_two_only_yn}}
+{%
+{\bf\Large Consent, Parental Permission, Teen Assent and} \\
+{\bf\Large Authorization Document}
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Parental Permission} \and \boolean{print_part_two_only_yn}}
+{%
+{\bf\Large Parental Permission and Authorization Document}
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Parental Permission and Teen Assent} \and \boolean{print_part_two_only_yn}}
+{%
+{\bf\Large Parental Permission, Teen Assent and Authorization Document}
+}%
+{}%
+
+\end{center}
+
+\ifthenelse{\boolean{print_part_two_only_yn}}%
+{%
+
+
+\newcolumntype{Y}{>{\bfseries\raggedright\hsize=0.333\textwidth\arraybackslash}X}
+\newcolumntype{Z}{>{\bfseries\raggedright\arraybackslash}X}
+
+\begin{tabularx}{\textwidth}{ Y Z }
+
+    Study Title:                                & {The Follow-up Automatically vs As-Needed Comparison (FAAN-C) Trial } \\
+    & \\
+    Principal Investigator:                     & {Eric Coon,} {MD, MS} \\
+                                                & {University of Utah and Riverton Children's Unit} \ifthenelse{\boolean{pi_address_yn}}{ \newline
+                                                  100 N Mario Capecchi Drive
+Salt Lake City, UT 84113
+(801) 587-2160}{}\\
+    \ifthenelse{\boolean{req_version_date}}{    & \\
+    Version Date:                               & {}\\}{}
+
+\end{tabularx}
+
+\rule{\textwidth}{0.1mm}
+
+\begin{center}
+
+\textbf{\large Part 2 of 2: SITE SPECIFIC INFORMATION}
+
+\end{center}
+
+}%
+{}
+
+
+%%*************************************************************************
+%% SITE SPECIFIC INTRODUCTION - PART 2 OF 2
+%%*************************************************************************
+
+This part of the consent form includes information about the site that is asking you to
+participate in this study and is specific to participation at your site only. Before making
+your decision, both the site-specific information and the general study information should
+be reviewed with you.
+
+
+%%*************************************************************************
+%% WHO TO CONTACT
+%%*************************************************************************
+\ifthenelse{\boolean{person_to_contact_yn} \and \boolean{print_part_two_only_yn}}%
+{%
+\section{WHO TO CONTACT}
+\label{sec:costsandcompensation}
+{If you have questions, complaints or concerns about this study, you can contact the Principal Investigator, Dr. Eric Coon by phone at (801) 587-2160. If you feel you may have been injured from being in this study, please call Dr. Eric Coon at the phone number above. Dr. Eric Coon can be reached during regular business hours (8am-5pm Mon-Fri).
+}
+}%
+{}%
+
+\ifthenelse{\boolean{person_to_contact_irb_yn} \and \boolean{print_part_two_only_yn}}%
+{%
+{Institutional Review Board: Contact the University of Utah Institutional Review Board (IRB) if you have questions regarding your rights as a research participant. Also, contact the IRB if you have questions, complaints or concerns which you do not feel you can discuss with the investigator. The University of Utah IRB may be reached by phone at (801) 581-3655 or by e-mail at irb@hsc.utah.edu.
+
+Research Participant Advocate: You may also contact the Research Participant Advocate (RPA) by phone at (801) 581-3803 or by email at participant.advocate@hsc.utah.edu. }
+}%
+{}%
+
+%%*************************************************************************
+%% RESEARCH RELATED INJURY
+%%*************************************************************************
+\ifthenelse{\boolean{research_related_injury_yn} \and \boolean{print_part_two_only_yn}}%
+{%
+\section{RESEARCH RELATED INJURY}
+\label{sec:researchrelatedinjury}
+{}
+}%
+{}%
+
+%%*************************************************************************
+%% SITE COST OF COMPENSATION
+%%*************************************************************************
+\ifthenelse{\boolean{site_cost_compensation_yn} \and \boolean{print_part_two_only_yn}}%
+{%
+\section{COST AND COMPENSATION}
+\label{sec:sitecostofcompensation}
+{}
+}%
+{}%
+
+%%*************************************************************************
+%% CONFIDENTIALITY LANGUAGE
+%%*************************************************************************
+\ifthenelse{\boolean{hipaa_site_language_yn} \and \boolean{print_part_two_only_yn}}%
+{%
+\section{CONFIDENTIALITY LANGUAGE}
+\label{sec:confidentiality}
+{}
+
+{}
+}%
+{}%
+
+%%*************************************************************************
+%% CONFLICT OF INTEREST
+%%*************************************************************************
+\ifthenelse{\boolean{coi} \and \boolean{print_part_two_only_yn}}%
+{%
+\section{CONFLICT OF INTEREST}
+\label{sec:conflictofinterest}
+{}
+}%
+{}%
+
+%%*************************************************************************
+%% ADDITIONAL LANGUAGE
+%%*************************************************************************
+\ifthenelse{\boolean{add_language_yn} \and \boolean{print_part_two_only_yn}}%
+{%
+%%\section{ADDITIONAL INFORMATION}
+\section{}
+\label{sec:additionalinfo}
+{}
+}%
+{}%
+
+\newpage
+
+%%*************************************************************************
+%% CONSENT
+%%*************************************************************************
+
+\newcommand{\consent}{%
+\textbf{\large CONSENT:}
+
+I confirm that I have read this consent document and have had the opportunity to ask questions.
+I will be given a signed copy of the consent form to keep.
+
+\textbf{I agree to take part in this research study as you have explained in this document.}
+
+\ \\
+\ \\
+
+
+\Sig{Participant's Name}
+
+\ifthenelse{\boolean{time_of_consent}}%
+{%
+\SigDateTime{Participant's Signature}
+}%
+{%
+\SigDate{Participant's Signature}
+}%
+
+\Sig{Name of Person Obtaining Consent}
+
+\ifthenelse{\boolean{time_of_consent}}%
+{%
+\SigDateTime{Signature of Person Obtaining Consent}
+}%
+{%
+\SigDate{Signature of Person Obtaining Consent}
+}%
+
+\newpage
+}
+
+%%*************************************************************************
+%% INFORMED CONSENT
+%%*************************************************************************
+
+\newcommand{\informedconsent}{%
+\textbf{\large CONSENT:}
+
+I confirm that I have read this consent and authorization document and have had the opportunity to ask questions.
+I will be given a signed copy of the consent and authorization form to keep.
+
+\textbf{I agree to take part in this research study and authorize you to use and disclose health
+information about me for this study, as you have explained in this document.}
+
+\ \\
+\ \\
+
+
+\Sig{Participant's Name}
+
+\ifthenelse{\boolean{time_of_consent}}%
+{%
+\SigDateTime{Participant's Signature}
+}%
+{%
+\SigDate{Participant's Signature}
+}%
+
+\Sig{Name of Person Obtaining Authorization and Consent}
+
+\ifthenelse{\boolean{time_of_consent}}%
+{%
+\SigDateTime{Signature of Person Obtaining Authorization and Consent}
+}%
+{%
+\SigDate{Signature of Person Obtaining Authorization and Consent}
+}%
+
+\newpage
+}
+
+%%*************************************************************************
+%% PARENT/GUARDIAN
+%%*************************************************************************
+\newcommand{\parentguardian}{%
+\textbf{\large PARENT/GUARDIAN CONSENT:}
+
+I confirm that I have read this parental permission document and have had the opportunity to ask
+questions. I will be given a signed copy of the parental permission form to keep.
+
+\textbf{I agree to allow my child to participate in this research study and authorize you to use
+and disclose health information about my child for this study, as you have explained in this document.}
+
+\ \\
+
+\Sig{Child's Name}
+
+\Sig{Parent/Guardian's Name}
+
+\ifthenelse{\boolean{time_of_consent}}%
+{%
+\SigDateTime{Parent/Guardian's Signature}
+}%
+{%
+\SigDate{Parent/Guardian's Signature}
+}%
+
+\Sig{Relationship to Child for Parent/Guardian}
+
+\Sig{Name of Person Obtaining Authorization and Consent}
+
+
+\ifthenelse{\boolean{time_of_consent}}%
+{%
+\SigDateTime{Signature of Person Obtaining Authorization and Consent}
+}%
+{%
+\SigDate{Signature of Person Obtaining Authorization and Consent}
+}%
+
+\newpage
+}
+
+%%*************************************************************************
+%% TEEN ASSENT
+%%*************************************************************************
+\newcommand{\teenassent}{%
+\textbf{\large TEEN ASSENT:}
+
+I confirm that I have read this assent document and have had the opportunity to ask questions.
+I will be given a signed copy of the assent form to keep. Signing my name at the bottom means
+that I agree to be in this study.
+
+\ \\
+
+\Sig{Printed Name of Child}
+
+\ifthenelse{\boolean{time_of_consent}}%
+{%
+\SigDateTime{Signature of Child}
+}%
+{%
+\SigDate{Signature of Child}
+}%
+
+\Sig{Name of Person Obtaining Assent}
+
+\ifthenelse{\boolean{time_of_consent}}%
+{%
+\SigDateTime{Signature of Person Obtaining Assent}
+}%
+{%
+\SigDate{Signature of Person Obtaining Assent}
+}%
+
+\newpage
+}
+
+%%*************************************************************************
+%% CONSENT TO CONTINUED PARTICIPATION
+%%*************************************************************************
+\newcommand{\continued}{%
+\textbf{\large CONSENT TO CONTINUED PARTICIPATION:}
+
+I understand that I am currently participating in a research study. I further understand that
+consent for my participation in this research study was initially obtained from my parent/guardian
+as a result of my not yet being 18 years of age and was unable to provide direct consent at the
+time that this initial consent was requested.
+
+I am now 18 years of age and am able to provide direct consent for continued participation in this
+research study. I confirm that I have read this consent document and have had the opportunity to
+ask questions. I will be given a signed copy of this consent document to keep.
+
+\Sig{Printed Name of 18 year old participant}
+
+\ifthenelse{\boolean{time_of_consent}}%
+{%
+\SigDateTime{Signature of 18 year old participant}
+}%
+{%
+\SigDate{Signature of 18 year old participant}
+}%
+
+\Sig{Name of Person Obtaining Consent}
+
+\ifthenelse{\boolean{time_of_consent}}%
+{%
+\SigDateTime{Signature of Person Obtaining Consent}
+}%
+{%
+\SigDate{Signature of Person Obtaining Consent}
+}%
+
+\newpage
+}
+
+
+%%*************************************************************************
+%% Consent Document Type Boolean Commands
+%%*************************************************************************
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Informed Consent Document for Research} \and \boolean{print_part_two_only_yn}}%
+{%
+\informedconsent
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Consent} \and \boolean{print_part_two_only_yn}}%
+{%
+\consent
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Consent and Parental Permission} \and \boolean{print_part_two_only_yn}}%
+{%
+\informedconsent
+\parentguardian
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Consent, Parental Permission and Teen Assent} \and \boolean{print_part_two_only_yn}}%
+{%
+\informedconsent
+\parentguardian
+\teenassent
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Parental Permission} \and \boolean{print_part_two_only_yn}}%
+{%
+\parentguardian
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Parental Permission and Teen Assent} \and \boolean{print_part_two_only_yn}}%
+{%
+\parentguardian
+\teenassent
+}%
+{}%
+
+\ifthenelse{\boolean{cnsnt_over18_yn} \and \boolean{print_part_two_only_yn}}%
+{%
+\continued
+}%
+{}%
+
+%%*************************************************************************
+%% WITNESS STATEMENT
+%%*************************************************************************
+
+\ifthenelse{\boolean{witness_statement} \and \boolean{print_part_two_only_yn}}%
+{%
+
+\textbf{\large WITNESS STATEMENT:}
+
+The participant was unable to read or sign this consent form because of the following reason:
+\begin{compactitem}
+\renewcommand{\labelitemi}{$\square$}
+    \item The participant is illiterate
+    \item The participant is visually impaired
+    \item The participant is physically unable to sign the consent form. Please describe:
+\end{compactitem}
+
+\hrulefill
+\begin{compactitem}
+\renewcommand{\labelitemi}{$\square$}
+    \item{Other \textit{(please specify)}}:
+\end{compactitem}
+\hrulefill
+
+I confirm that I was present as a witness for the consent process for this study.
+I confirm that the participant named above was read the information in the consent document
+and that the participant has agreed to take part in the research study.
+
+\ \\
+
+\Sig{Name of Witness}
+
+\ifthenelse{\boolean{time_of_consent}}%
+{%
+\SigDateTime{Signature of Witness}
+}%
+{%
+\SigDate{Signature of Witness}
+}%
+
+\newpage
+
+}%
+{}%
+
+
+%%*************************************************************************
+%%NON-ENGLISH WITNESS STATEMENT
+%%*************************************************************************
+\ifthenelse{\boolean{non_eng_witness_statement} \and \boolean{print_part_two_only_yn}}%
+{%
+\textbf{\large INTERPRETER STATEMENT:}\\
+\textbf{(For Non-English Speaking Participants Only)}
+
+I confirm that I was present as an interpreter for the duration of
+the consent process for this research study.  I confirm that I am
+qualified and have the necessary skills to provide interpretation
+between the participant's language and English.  By signing this
+form, I confirm that I provided a full and complete interpretation
+of the exchange between the researcher obtaining consent and
+the participant, to the best of my ability.
+
+\Sig{Name of Interpreter}
+
+\ifthenelse{\boolean{time_of_consent}}%
+{%
+\SigDateTime{Signature of Interpreter}
+}%
+{%
+\SigDate{Signature of Interpreter}
+}%
+
+\newpage
+
+}%
+{}%
+
+%%*************************************************************************
+%% LAR STATEMENT
+%%*************************************************************************
+
+\ifthenelse{\boolean{lar_statement}}%
+{%
+\textbf{LEGALLY AUTHORIZED REPRESENTATIVE CONSENT STATEMENT:}\\
+\textbf{If the participant is unable to give consent and
+authorization, consent and authorization is given by
+the authorized personal representative of the individual:}
+
+I confirm that I have read this consent and authorization
+document. I have had the opportunity to ask questions and
+those questions have been answered to my satisfaction. I
+am willing and authorized  to serve as a surrogate decision
+maker for
+
+\Sig{Participant's Name}
+
+I have been informed of my role and my obligation to protect the rights and welfare of the
+participant. I understand that my obligation as a surrogate decision maker is to try to
+determine what the participant would decide if the participant were able to make such decision
+or, if the participant's wishes cannot be determined, what is in the participant's best interests.
+I will be given a signed copy of the consent and authorization form to keep.
+
+\ \\
+
+\Sig{Name of Authorized Personal Representative}
+
+\ifthenelse{\boolean{time_of_consent}}%
+{%
+\SigDateTime{Signature of Authorized Personal Representative}
+}%
+{%
+\SigDate{Signature of Authorized Personal Representative}
+}%
+
+Indicate the legal representative's authority to act for the individual:
+\begin{compactitem}
+\renewcommand{\labelitemi}{$\square$}
+    \item Spouse
+    \item Adult (18 years of age or over) for his or her parent
+    \item Individual with power of attorney
+    \item Guardian appointed to make medical decisions for individual who are incapacitated
+\end{compactitem}
+
+\newpage
+
+}%
+{}%
+
+%%*************************************************************************
+%% REPORTING RACE AND ETHNICITY DATA
+%%*************************************************************************
+
+
+\ifthenelse{\boolean{nih_race_et_yn} \and \boolean{print_part_two_only_yn}}%
+{%
+\begin{center}
+\textbf{Reporting Race and Ethnicity Data}\\
+
+\textbf{Per the NIH POLICY ON REPORTING RACE AND ETHNICITY DATA:}\\
+\textbf{SUBJECTS IN CLINICAL RESEARCH (NOT-OD-01-053)}
+
+\setlength\extrarowheight{1pt}
+\begin{tabular}{|m{1.5in}|}
+\hline
+\textbf{Sex/Gender} \\
+$\Box$ \textbf{Male} \\
+$\Box$ \textbf{Female} \\ \hline
+\end{tabular}
+
+\end{center}
+
+\textbf{Ethnicity}
+
+Do you consider yourself to be Hispanic or Latino? (See definition below). Select one.
+\textbf{Hispanic or Latino}. A person of Mexican, Puerto Rican, Cuban, South or Central American,
+or other Spanish culture or origin, regardless of race. The term, ``Spanish origin,''
+can be used in addition to ``Hispanic or Latino.''
+
+\hspace*{.4in}\textbf{$\Box$ Hispanic or Latino}\\
+\hspace*{.4in}\textbf{$\Box$ Not Hispanic or Latino}
+
+\textbf{Race}
+
+What race do you consider yourself to be? Select one or more of the following.
+\vspace{-11pt}\begin{compactitem}[$\Box$]
+    \item \textbf{American Indian or Alaska Native.} A person having origins in any of the original
+        peoples of North, Central, or South America, and who maintains tribal affiliation or community attachment.
+    \item \textbf{Asian.} A person having origins in any of the original peoples of the Far East, Southeast
+        Asia, or the Indian subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan,
+        the Philippine Islands, Thailand, and Vietnam. (Note: Individuals from the Philippine Islands have been recorded
+        as Pacific Islanders in previous data collection strategies.)
+    \item \textbf{Black or African American.} A person having origins in any of the black racial groups of
+        Africa. Terms such as ``Haitian'' or ``Negro'' can be used in addition to ``Black'' or ``African American.''
+    \item \textbf{Native Hawaiian or other Pacific Islander.} A person having origins in
+        any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands.
+    \item\textbf{White.} A person having origins in any of the original peoples of Europe, the Middle East, or North Africa.
+\end{compactitem}
+
+\vspace{-11pt}$\Box$ Check here if you do not wish to provide some or all of the above information.
+}%
+{}%
+
+\phantomsection\label{LastPage}
+
+\end{document} 

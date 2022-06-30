@@ -1,0 +1,20 @@
+{
+	"name": "study-summary-block",
+	"version": "0.1.0",
+	"description": "A statement that participation in the research study is voluntary Purpose of the study A high-level description of the study (number of study centers, number of subjects, masking, duration) A brief description of the key efficacy, effectiveness and safety endpoints",
+	"author": "The WordPress Contributors",
+	"license": "GPL-2.0-or-later",
+	"main": "build/index.js",
+	"scripts": {
+		"build": "wp-scripts build",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"packages-update": "wp-scripts packages-update",
+		"plugin-zip": "wp-scripts plugin-zip",
+		"start": "wp-scripts start"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^23.3.0"
+	}
+}

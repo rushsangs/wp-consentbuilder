@@ -1,0 +1,20 @@
+{
+	"name": "form-version-date-block",
+	"version": "0.1.0",
+	"description": "This option allows you to specify a consent document version date for your consent form to be indicated next to the consent form version number.",
+	"author": "The WordPress Contributors",
+	"license": "GPL-2.0-or-later",
+	"main": "build/index.js",
+	"scripts": {
+		"build": "wp-scripts build",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"packages-update": "wp-scripts packages-update",
+		"plugin-zip": "wp-scripts plugin-zip",
+		"start": "wp-scripts start"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^23.3.0"
+	}
+}

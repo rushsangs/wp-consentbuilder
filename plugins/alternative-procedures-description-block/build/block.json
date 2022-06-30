@@ -1,0 +1,17 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "consent-form-block/alternative-procedures-description-block",
+  "version": "0.1.0",
+  "title": "Alternative Procedures Description",
+  "category": "text",
+  "icon": "smiley",
+  "description": "Will the ICF present alternative procedures or courses of treatment should the patient elect not to enroll?",
+  "supports": {
+    "html": false
+  },
+  "textdomain": "alternative-procedures-description-block",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}
