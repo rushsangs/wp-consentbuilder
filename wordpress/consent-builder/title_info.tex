@@ -1,0 +1,46 @@
+
+%%*************************************************************************
+%% DOCUMENT TITLE INFORMATION
+%%*************************************************************************
+%% TITLE OF DOCUMENT BOOLEAN OPTIONS %%
+
+\begin{center}
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Informed Consent Document for Research} \and \boolean{print_part_one_only_yn}}
+{%
+\textbf{\Large Informed Consent Document for Research}
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Consent} \and \boolean{print_part_one_only_yn}}
+{%
+\textbf{\Large Consent Document}
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Consent and Parental Permission} \and \boolean{print_part_one_only_yn}}
+{%
+\textbf{\Large Consent, Parental Permission and Authorization Document}
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Consent, Parental Permission and Teen Assent} \and \boolean{print_part_one_only_yn}}
+{%
+\textbf{\Large Consent, Parental Permission, Teen Assent and} \\
+\textbf{\Large Authorization Document}
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Parental Permission} \and \boolean{print_part_one_only_yn}}
+{%
+\textbf{\Large Parental Permission and Authorization Document}
+}%
+{}%
+
+\ifthenelse{\equal{Consent, Parental Permission and Teen Assent}{Parental Permission and Teen Assent} \and \boolean{print_part_one_only_yn}}
+{%
+\textbf{\Large Parental Permission, Teen Assent and Authorization Document}
+}%
+{}%
+\end{center}
+

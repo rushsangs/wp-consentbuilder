@@ -24,6 +24,7 @@ services:
        WORDPRESS_DB_USER: root
        WORDPRESS_DB_PASSWORD: password
        WORDPRESS_DB_NAME: mydatabase
+       PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/texlive/2022/bin/x86_64-linux
      volumes:
        - "./wordpress:/var/www/html"
        - "./plugins:/var/www/html/wp-content/plugins"

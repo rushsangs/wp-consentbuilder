@@ -1,0 +1,374 @@
+%% ***********************************************************************************************************
+%% University of Utah TIC
+%%
+%% Consent Template for generating Consent/Parental Permission/Teen Assent, and Authorization Documents
+%%
+%% Authors: Patrick Harris
+%%
+%% Version: 5.0  01-XX-2022
+%% **********************************************************************************************************
+%% Based on Previous versions created by Rene Enriquez and Patrick Harris
+%%
+%% **********************************************************************************************************
+
+\documentclass[11pt]{article}
+
+%%*************************************************************************
+%% GENERAL PACKAGES
+%%*************************************************************************
+
+\usepackage{amsmath,amssymb}            % mathmode symbols
+\usepackage{ifthen}                     % if-then-else statements; boolean controls
+\usepackage{soul}                       % font type commands: \bf, \it etc.
+\usepackage{ulem}                       % allows \uline command
+\usepackage{paralist}                   % compact list envs
+\usepackage{enumitem}                   % comprehensive list env control/customization
+\usepackage{graphicx}                   % inserting images
+\usepackage{fancyhdr}                   % header customization
+\usepackage{float}                      % specific floater placement
+\usepackage{xcolor}                     % increased color options
+\usepackage{colortbl}                   % colors in tables
+\usepackage{booktabs}                   % professional looking tables
+\usepackage{multicol}                   % multicolumn
+\usepackage{tabularx}                   % tabularx
+\usepackage{lastpage}                   % referencing last page
+\usepackage{adjustbox}                  % increased macros for adjusting boxes
+
+%% To avoid "widowed" paragraph lines.
+\usepackage[all]{nowidow}
+
+ %% Customization of Section/subsection headers
+\usepackage{titlesec}
+
+%% The following packages, in conjunction with package graphicx,
+%% work to produce the IRB Space water mark
+\usepackage{type1cm}
+\usepackage{eso-pic}
+\usepackage{color}
+
+
+%%*************************************************************************
+%% DOCUMENT GEOMETRY SPECIFICATIONS
+%%*************************************************************************
+\usepackage{geometry}
+
+\parskip10pt
+\parindent0pt
+
+\newgeometry{top=0.25in,%                % top margin
+            bottom=2.0in,%                % IRB space
+            width=468pt,%               % width of textbody
+            left=1.0in,%                % left margin
+            footskip=15pt,%               % footskip is space between body and footer
+            headsep=0.65in,%
+            includeheadfoot}
+\savegeometry{medicalrecord}
+
+\newgeometry{top=0.25in,%                % top margin
+            bottom=2.0in,%                % IRB space
+            width=468pt,%               % width of textbody
+            left=1.0in,%                % left margin
+            footskip=15pt,%               % footskip is space between body and footer
+            headsep=1in,%
+            includeheadfoot}
+\savegeometry{logo}
+
+\newgeometry{top=0.25in,%                % top margin
+            bottom=2.0in,%               % IRB space
+            width=468pt,%               % width of textbody
+            left=1.0in,%                % left margin
+            footskip=15pt,%               % footskip is space between body and footer
+            includeheadfoot}
+\savegeometry{nologo}
+
+
+
+
+
+
+
+%% hyperref should be loaded last except in special circumstances
+\usepackage[colorlinks=true,%
+            linkcolor=black,%
+            citecolor=blue,%
+            urlcolor=blue]{hyperref}
+
+
+\UseRawInputEncoding                    % Allows obtuse characters to be ignored by compiler so it still creates a pdf
+
+
+%%*************************************************************************
+%% ESTABLISHING BOOLEAN NAMES
+%%*************************************************************************
+
+\newboolean{add_language_yn}
+\newboolean{alt_proc_yn}
+\newboolean{auth_hipaa_yn}
+\newboolean{barcode_yn}
+\newboolean{biospecimens_yn}
+\newboolean{cnsnt_over18_yn}
+\newboolean{coi}
+\newboolean{cost_compensation_yn}
+\newboolean{hipaa_separate_auth_yn}
+\newboolean{hipaa_site_language_yn}
+\newboolean{institutional_hipaa}
+\newboolean{investigator_withdraw_yn}
+\newboolean{irb_number_yn}
+\newboolean{irb_watermark}
+\newboolean{lar_statement}
+\newboolean{new_info_yn}
+\newboolean{nih_race_et_yn}
+\newboolean{non_eng_witness_statement}
+\newboolean{patient_info_header_yn}
+\newboolean{person_to_contact_yn}
+\newboolean{person_to_contact_irb_yn}
+\newboolean{pi_address_yn}
+\newboolean{print_part_one_only_yn}
+\newboolean{print_part_two_only_yn}
+\newboolean{req_initial}
+\newboolean{req_logo}
+\newboolean{req_version_date}
+\newboolean{research_related_injury_yn}
+\newboolean{site_cost_compensation_yn}
+\newboolean{study_confidentiality_yn}
+\newboolean{study_logo_yn}
+\newboolean{study_procedure_images_yn}
+\newboolean{time_of_consent}
+\newboolean{tissue_banking}
+\newboolean{tissue_banking_yn_study}
+\newboolean{uu_sirb_yn}
+\newboolean{voluntary_participation_yn}
+\newboolean{witness_statement}
+
+%% Setting boolean commands: "true" or "false"
+%%
+%%  is read by java script and replaced
+%% with "true" or "falsed" determined by user input from REDCap.
+
+\setboolean{add_language_yn}{false}
+\setboolean{alt_proc_yn}{false}
+\setboolean{barcode_yn}{false}
+\setboolean{biospecimens_yn}{false}
+\setboolean{cnsnt_over18_yn}{true}
+\setboolean{coi}{false}
+\setboolean{cost_compensation_yn}{true}
+\setboolean{hipaa_separate_auth_yn}{false}
+\setboolean{hipaa_site_language_yn}{false}
+\setboolean{investigator_withdraw_yn}{true}
+\setboolean{irb_number_yn}{true}
+\setboolean{irb_watermark}{true}
+\setboolean{lar_statement}{false}
+\setboolean{new_info_yn}{true}
+\setboolean{nih_race_et_yn}{false}
+\setboolean{non_eng_witness_statement}{false}
+\setboolean{patient_info_header_yn}{false}
+\setboolean{person_to_contact_yn}{true}
+\setboolean{person_to_contact_irb_yn}{true}
+\setboolean{pi_address_yn}{true}
+\setboolean{print_part_one_only_yn}{true}
+\setboolean{print_part_two_only_yn}{true}
+\setboolean{req_initial}{false}
+\setboolean{req_logo}{true}
+\setboolean{req_version_date}{false}
+\setboolean{research_related_injury_yn}{false}
+\setboolean{site_cost_compensation_yn}{false}
+\setboolean{study_confidentiality_yn}{true}
+\setboolean{study_procedure_images_yn}{false}
+\setboolean{study_logo_yn}{false}
+\setboolean{tissue_banking_yn_study}{false}
+\setboolean{time_of_consent}{false}
+\setboolean{voluntary_participation_yn}{true}
+\setboolean{uu_sirb_yn}{true}
+\setboolean{witness_statement}{false}
+
+
+\ifthenelse{\boolean{barcode_yn}}{
+
+\usepackage[code=Code39,%
+            X=0.5mm,%
+            ratio=2.25,%
+            H=1cm]{makebarcode}         % for making barcodes
+
+
+\usepackage[firstpageonly,
+            hanchor=l,
+            vanchor=t,
+            pos={0.25in,0.5\paperheight}]{draftwatermark}
+\usepackage{etoolbox}
+
+\SetWatermarkAngle{-90}
+\SetWatermarkLightness{0.0}
+\SetWatermarkFontSize{0.75cm}
+%\SetWatermarkScale{8}
+\SetWatermarkText{\barcode{}\\ \textbf{}}
+}
+{}
+
+%%*************************************************************************
+%% CUSTOMIZATION OF SECTION/SUBSECTION HEADERS
+%%*************************************************************************
+\renewcommand{\thesection}{}                        %% Removes # of section
+\titleformat{\section}
+    {\large\bfseries}{\thesection}{0pt}{}           %% Format of section header
+\titlespacing*{\section}{0pt}{0pt}{-08pt}%      %% Spacing around section header
+
+\renewcommand{\thesubsection}{}                     %% Removes # of subsection
+\titleformat{\subsection}
+    {\large\bfseries}{\thesubsection}{0pt}{}        %% Format of subsection header
+\titlespacing*{\subsection}{0pt}{0pt}{-08pt}%   %% Spacing around subsection header
+
+\renewcommand{\thesubsubsection}{}                  %% Removes # of subsubsection
+\titleformat{\subsubsection}
+    {\large\bfseries}{\thesubsubsection}{0pt}{}     %% Format of subsubsection header
+\titlespacing*{\subsubsection}{0pt}{0pt}{-08pt}% %% Spacing around subsubsection header
+
+%%*************************************************************************
+%% HEADER AND FOOTER DEFINITIONS
+%%*************************************************************************
+
+\fancypagestyle{FullDocHeader}{%
+        \fancyhf{}%
+        \fancyhead[L]{%
+                \ifthenelse{\boolean{study_logo_yn}}%
+                {%
+                \includegraphics[height=1.5cm]{}
+                }%
+                {~}%
+                \newline\ifthenelse{\boolean{irb_number_yn}}{\footnotesize IRB \#: cb_IRB_target }{}
+                \newline\footnotesize{cb_header_target}%
+        }%
+        \fancyhead[R]{%
+                \ifthenelse{\boolean{patient_info_header_yn}}{%
+                        {~\hfill\footnotesize\begin{tabular}{ll@{}}
+                                MED. REC. NO. & \rule{2cm}{0.1mm} \\
+                                NAME & \rule{2cm}{0.1mm} \\
+                                BIRTHDATE & \rule{2cm}{0.1mm} \\
+                                \end{tabular}
+                                \newline}
+                        }%
+                        {}%
+                ~\hfill\footnotesize%
+                \ifthenelse{\boolean{req_initial}}%
+                {%
+                \rule{1cm}{0.1mm}~\textbf{Initials}%
+                }%
+                {}%
+                \newline Page \thepage ~of \pageref{LastPage}
+        }%
+        \fancyfoot[L]{%
+                \textcolor[gray]{0.9}{\rule{\textwidth}{0.4pt}}  %% "1.0" is White, "0.0" is Black
+        }%
+}
+
+\fancypagestyle{PartTwoLogo}{%
+        \fancyhf{}%
+        \fancyhead[L]{%
+                \ifthenelse{\boolean{req_logo}}%
+                {%
+                \includegraphics[height=1.5cm]{UHealthhorizontalpngred.png}
+                }%
+                {~}%
+                \newline\ifthenelse{\boolean{irb_number_yn}}{\footnotesize IRB \#: cb_IRB_target }{}
+                \newline\footnotesize{cb_header_target}%
+        }%
+        \fancyhead[R]{%
+                \ifthenelse{\boolean{patient_info_header_yn}}{%
+                        {~\hfill\footnotesize\begin{tabular}{ll@{}}
+                                MED. REC. NO. & \rule{2cm}{0.1mm} \\
+                                NAME & \rule{2cm}{0.1mm} \\
+                                BIRTHDATE & \rule{2cm}{0.1mm} \\
+                                \end{tabular}
+                                \newline}
+                        }%
+                        {}%
+                ~\hfill\footnotesize%
+                \ifthenelse{\boolean{req_initial}}%
+                {%
+                \rule{1cm}{0.1mm}~\textbf{Initials}%
+                }%
+                {}%
+                \newline Page \thepage ~of \pageref{LastPage}
+        }%
+        \fancyfoot[L]{%
+                \textcolor[gray]{0.9}{\rule{\textwidth}{0.4pt}}  %% "1.0" is White, "0.0" is Black
+        }%
+}
+
+
+%%*************************************************************************
+%% SIGNATURE BLOCK MACROS
+%%*************************************************************************
+
+\newcommand{\Sig}[1]{%
+\setlength\extrarowheight{1pt}
+\begin{tabular}{@{}>{\raggedright}p{0.5\textwidth}}
+\rule{0.48\textwidth}{0.1mm} \\
+#1 \\
+\end{tabular}
+}
+
+\newcommand{\SigDate}[1]{%
+\setlength\extrarowheight{1pt}
+\begin{tabular}{@{}>{\raggedright}p{0.5\textwidth}>{\raggedright\arraybackslash}p{0.2\textwidth}}
+\rule{0.48\textwidth}{0.1mm} &  \rule{0.2\textwidth}{0.1mm} \\
+#1 &  Date \\
+\end{tabular}
+}
+
+\newcommand{\SigDateTime}[1]{%
+\setlength\extrarowheight{1pt}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright}p{0.5\textwidth}>{\raggedright}X>{\raggedright\arraybackslash}p{0.2\textwidth}@{}}
+\rule{0.48\textwidth}{0.1mm} &  \rule{0.2\textwidth}{0.1mm} &  \rule{0.2\textwidth}{0.1mm} \\
+#1 & Date & Time AM/PM\\
+\end{tabularx}
+}
+
+
+
+\begin{document}
+
+
+%% Not sure if this should be in here forever. -RMY
+
+\ifthenelse{\boolean{study_logo_yn} \OR \boolean{req_logo}}{\loadgeometry{logo}}{\ifthenelse{\boolean{patient_info_header_yn}}{\loadgeometry{medicalrecord}}{\loadgeometry{nologo}}}
+
+\ifthenelse{\boolean{study_logo_yn}}%
+{%
+\pagestyle{FullDocHeader}
+}%
+{%
+\pagestyle{PartTwoLogo}
+}%
+
+
+
+%%*************************************************************************
+%% IRB WATERMARK INFORMATION
+%%*************************************************************************
+
+%% \makeatletter and \makeatother allow "@" to be used in watermark options
+%
+%% \makebox(x,y) is center location of water mark. (0,0) is center of page. Measured in pts.
+%% \rotatebox{<degree>} determines rotation: 0 is horizontal, 90 vertical.
+%% \textcolor[gray] determines color.
+%% \fontsize{1cm}{1cm} determines size of font.
+%% \selectfont{PUT WATERMARK VERBIAGE HERE}
+%
+%% DO NOT ALTER OTHER PARTS OF WATERMARK UNLESS NECESSARY %%
+
+\makeatletter
+\ifthenelse{\boolean{irb_watermark}}
+    {%
+          \AddToShipoutPicture{%
+            \setlength{\@tempdimb}{.5\paperwidth}%
+            \setlength{\@tempdimc}{.5\paperheight}%
+            \setlength{\unitlength}{1pt}%
+            \put(\strip@pt\@tempdimb,\strip@pt\@tempdimc){%
+                \makebox(0,-800){\rotatebox{0}{\textcolor[gray]{0.9}%
+                {\fontsize{1cm}{1cm}\selectfont{}}}}%
+                }%
+            }%
+    }%
+    {}%
+\makeatother
+

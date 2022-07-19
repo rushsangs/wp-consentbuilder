@@ -1,0 +1,43 @@
+<html>
+<head>
+<script type="text/javascript">
+function changeUrl() {
+    var site = "";
+    document.getElementsByName('pdfpane')[0].src = "http://155.98.13.238:8765/consent-builder/tmp_54_5/cb.pdf";
+}
+// const BORDER_SIZE = 4;
+// const panel = document.getElementByName("pdfpane");
+
+// let m_pos;
+// function resize(e){
+//   const dx = m_pos - e.x;
+//   m_pos = e.x;
+//   panel.style.width = (parseInt(getComputedStyle(panel, '').width) + dx) + "px";
+// }
+
+// panel.addEventListener("mousedown", function(e){
+//   if (e.offsetX < BORDER_SIZE) {
+//     m_pos = e.x;
+//     document.addEventListener("mousemove", resize, false);
+//   }
+// }, false);
+
+// document.addEventListener("mouseup", function(){
+//     document.removeEventListener("mousemove", resize, false);
+// }, false);
+</script>
+</head>
+<body>
+<button onclick="changeUrl()">Load page in iframe</button>
+<div class='box'>
+    <div>
+        <div style="float: left; width: 50%; resize: both;">
+            <iframe src="https://localhost:8765" frameborder="0" scrolling="no" width="100%" height="100%"> </iframe>
+        </div>
+        <div style="float: right; width: 50%; resize: both;">
+            <iframe src="" frameborder="0" scrolling="no" width="100%" height="100%" name = "pdfpane"></iframe>
+        </div>
+    </div>
+  </div>
+</body>
+</html>
