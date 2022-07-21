@@ -11,7 +11,8 @@ import { __ } from '@wordpress/i18n';
  *
  * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
  */
-import { RichText } from '@wordpress/block-editor';
+import { useBlockProps,RichText } from '@wordpress/block-editor';
+import {TextControl} from '@wordpress/components';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -29,15 +30,14 @@ import './editor.scss';
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit() {
-	function onChangeContent() {
-		console.log( 'Working!' );
-	}
-
-	return (
-		<RichText
-			tagName="p"
-			onChange={ onChangeContent }
-		/>
-	);
-}
+ export default function Edit( { attributes, setAttributes } ) {
+    return (
+        <div { ...useBlockProps() }>
+            <TextControl
+                label={__('Study Protocol Number') }
+                value={ attributes.message }
+                onChange={ ( val ) => setAttributes( { message: val } ) }
+            />
+        </div>
+    );
+} 

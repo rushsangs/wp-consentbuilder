@@ -44,3 +44,32 @@
 {}%
 \end{center}
 
+
+%%*************************************************************************
+%% STUDY SPECIFIC INFORMATION - PART 1
+%%*************************************************************************
+
+
+%% Definitions of columns for tabularx
+\ifthenelse{\boolean{print_part_one_only_yn}}%
+{%
+\newcolumntype{Y}{>{\bfseries\raggedright\hsize=0.175\textwidth\arraybackslash}X}
+\newcolumntype{Z}{>{\bfseries\raggedright\arraybackslash}X}
+
+\begin{tabularx}{\textwidth}{ Y Z }
+
+    Study Title:                                & {$$study_name$$} \\
+    & \\
+    Version Date:                               & {$$consent_version_date$$}\\
+    & \\
+    Source of Support:                          & {$$support_source$$}
+
+\end{tabularx}
+\rule{\textwidth}{0.1mm}
+
+\begin{center}
+\textbf{\large Part 1 of 2: MASTER CONSENT}
+\end{center}
+
+}%
+{}%

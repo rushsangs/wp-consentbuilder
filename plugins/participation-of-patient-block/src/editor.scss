@@ -1,0 +1,54 @@
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+ .editor-block-list__layout .editor-block-list__block[data-type="my-gutenberg/my-block"] .mce-btn.mce-active button,
+ .editor-block-list__layout .editor-block-list__block[data-type="my-gutenberg/my-block"] .mce-btn.mce-active:hover button,
+ .editor-block-list__layout .editor-block-list__block[data-type="my-gutenberg/my-block"] .mce-btn.mce-active i,
+ .editor-block-list__layout .editor-block-list__block[data-type="my-gutenberg/my-block"] .mce-btn.mce-active:hover i {
+   color: #23282d; }
+ 
+ .editor-block-list__layout .editor-block-list__block[data-type="my-gutenberg/my-block"] .mce-btn i {
+   font-style: normal; }
+ 
+ .editor-block-list__layout .editor-block-list__block[data-type="my-gutenberg/my-block"] .mce-toolbar-grp > div {
+   padding: 1px 3px; }
+ 
+ .editor-block-list__layout .editor-block-list__block[data-type="my-gutenberg/my-block"] .editor-block-list__block-edit::before {
+   outline: 1px solid #e2e4e7; }
+ 
+ .editor-block-list__layout .editor-block-list__block[data-type="my-gutenberg/my-block"].is-hovered .editor-block-list__breadcrumb {
+   display: none; }
+ 
+ div[data-type="my-gutenberg/my-block"] .editor-block-contextual-toolbar + div {
+   margin-top: 0;
+   padding-top: 0; }
+ 
+ @media (min-width: 600px) {
+   .editor-block-list__block[data-type="my-gutenberg/my-block"] .editor-block-switcher__no-switcher-icon {
+	 display: none; }
+   .editor-block-list__block[data-type="my-gutenberg/my-block"] .editor-block-contextual-toolbar {
+	 float: right;
+	 margin-right: 23px;
+	 transform: translateY(-13px);
+	 top: 14px; }
+	 .editor-block-list__block[data-type="my-gutenberg/my-block"] .editor-block-contextual-toolbar .editor-block-toolbar {
+	   border: none;
+	   margin-top: 3px; } }
+	 @media (min-width: 600px) and (min-width: 782px) {
+	   .editor-block-list__block[data-type="my-gutenberg/my-block"] .editor-block-contextual-toolbar .editor-block-toolbar {
+		 margin-top: 0; } }
+ 
+ @media (min-width: 600px) {
+	   .editor-block-list__block[data-type="my-gutenberg/my-block"] .editor-block-contextual-toolbar .editor-block-toolbar::before {
+		 content: "";
+		 display: block;
+		 border-left: 1px solid #e2e4e7;
+		 margin-top: 4px;
+		 margin-bottom: 4px; }
+	 .editor-block-list__block[data-type="my-gutenberg/my-block"] .editor-block-contextual-toolbar .components-toolbar {
+	   background: transparent;
+	   border: none; }
+   .editor-block-list__block[data-type="my-gutenberg/my-block"] .mce-container.mce-toolbar.mce-stack-layout-item {
+	 padding-right: 36px; } }

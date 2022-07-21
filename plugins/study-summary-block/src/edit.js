@@ -30,13 +30,16 @@ import './editor.scss';
  *
  * @return {WPElement} Element to render.
  */
- export default function Edit( { attributes, className, setAttributes } ) {
-    return (
-       <RichText
-       tagName="p"
-       className={ className }
-       onChange={ ( val ) => setAttributes( { content: val } ) }
-       value={ attributes }
-   />
-    );
+ export default function Edit( { props } ) {
+    var blockProps = useBlockProps();
+ 
+    return wp.element.createElement( RichText, Object.assign( blockProps, {
+        tagName: 'h2',  // The tag here is the element output and editable in the admin
+        value: props.attributes.content, // Any existing content, either from the database or an attribute default
+        allowedFormats: [ 'core/bold', 'core/italic' ], // Allow the content to be made bold or italic, but do not allow other formatting options
+        onChange: function( content ) {
+            props.setAttributes( { content: content } ); // Store updated content as a block attribute
+        },
+        placeholder: __( 'Enter study summary here...' ), // Display this text before any content has been added by the user
+    } ) );
 }

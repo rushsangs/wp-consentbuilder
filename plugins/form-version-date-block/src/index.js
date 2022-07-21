@@ -27,32 +27,12 @@ import metadata from './block.json';
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
 registerBlockType( metadata.name, {
-	attributes: {
-        content: {
-            type: 'string',
-            source: 'html',
-            selector: '.text-content'
-        }
-    },
 	/**
 	 * @see ./edit.js
 	 */
-	edit: function( {className} ) {
-
-        function onChangeContent() {
-            console.log("Working!");
-        }
-
-        return (
-            <RichText
-                tagName="p"
-                className={ className }
-                onChange={ onChangeContent }
-            />
-        );
-    },
+	edit: Edit,
 	/**
 	 * @see ./save.js
 	 */
-	save,
+	save: save,
 } );

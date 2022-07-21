@@ -33,7 +33,7 @@ export default function Edit(props) {
 	var blockProps = useBlockProps();
  
         return wp.element.createElement( RichText, Object.assign( blockProps, {
-            tagName: 'h2',  // The tag here is the element output and editable in the admin
+            tagName: 'p',  // The tag here is the element output and editable in the admin
             value: props.attributes.content, // Any existing content, either from the database or an attribute default
             allowedFormats: [ 'core/bold', 'core/italic' ], // Allow the content to be made bold or italic, but do not allow other formatting options
             onChange: function( content ) {

@@ -15,13 +15,13 @@ const {withSelect, withDispatch} = wp.data;
 let PluginMetaFields  = ( props ) => {
     return(
         <>
-            <TextControl
+            {/* <TextControl
             value={props.text_value}
             label={__('Text Meta Field', 'sidebar-preview-pdf')}
             // onChange={}
             >
 
-            </TextControl>
+            </TextControl> */}
             <a href={wp.data.select('core/editor').getEditedPostAttribute('meta')["prefix_text_field"]} target="_blank" rel="noopener noreferrer" id="pdf-previewer">Click here to view PDF!</a>
         </>
     )
@@ -45,7 +45,7 @@ registerPlugin('sidebar-preview-pdf', {
             <>
                 <PluginSidebar
                 name="sidebar-preview-pdf"
-                title={__('Meta Options', 'sidebar-preview-pdf') }
+                title={__('View Generated Consent Form', 'sidebar-preview-pdf') }
                 >
                    <PluginMetaFields />
                 </PluginSidebar>

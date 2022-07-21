@@ -3,10 +3,10 @@
 	"apiVersion": 2,
 	"name": "consent-form-block/study-title-protocol-number-block",
 	"version": "0.1.0",
-	"title": "Study Title and Protocol Number",
+	"title": "Study Protocol Number",
 	"category": "text",
 	"icon": "smiley",
-	"description": "Add a study title and protocol number (if applicable).",
+	"description": "Add a study protocol number (if applicable).",
 	"supports": {
 		"html": false
 	},
