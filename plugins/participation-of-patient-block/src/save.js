@@ -30,7 +30,10 @@
 // 	 } ) );
 //  }
  
-  export default function save( { attributes } ) {
-    const blockProps = useBlockProps.save();
-    return <div { ...blockProps }>{ attributes.message }</div>;
+export default function save(props) {
+	var blockProps = useBlockProps.save();
+ 
+	return wp.element.createElement(RichText.Content, Object.assign( blockProps, {
+		tagName: 'p', value: props.attributes.content // Saves <h2>Content added in the editor...</h2> to the database for frontend display
+	} ) );
 }

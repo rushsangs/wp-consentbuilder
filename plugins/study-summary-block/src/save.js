@@ -32,10 +32,10 @@ import {RichText} from  '@wordpress/block-editor';
 // 		</p>
 // 	);
 // }
-export default function save( { props } ) {
-    var blockProps = useBlockProps.save();
+export default function save(props) {
+	var blockProps = useBlockProps.save();
  
 	return wp.element.createElement(RichText.Content, Object.assign( blockProps, {
-		tagName: 'h2', value: props.attributes.content // Saves <h2>Content added in the editor...</h2> to the database for frontend display
+		tagName: 'p', value: props.attributes.content // Saves <h2>Content added in the editor...</h2> to the database for frontend display
 	} ) );
 }

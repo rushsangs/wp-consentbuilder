@@ -5,8 +5,14 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-consent-form-block-study-summary-block {
-	background-color: #900;
+ .wp-block-create-block-participation-of-patient-block {
+	background-color: #31a072;
 	color: #fff;
-	padding: 20px;
+	padding: 2px; 
+}
+
+.custom-block-rt-content {
+	margin: 5px;
+	background-color: white;
+	color: black;
 }

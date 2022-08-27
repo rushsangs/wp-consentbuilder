@@ -22,7 +22,7 @@ import { useBlockProps, RichText } from '@wordpress/block-editor';
  *
  * @return {WPElement} Element to render.
  */
-export default function save(props) {
+ export default function save(props) {
 	var blockProps = useBlockProps.save();
  
 	return wp.element.createElement(RichText.Content, Object.assign( blockProps, {

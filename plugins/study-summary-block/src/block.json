@@ -18,7 +18,8 @@
         "content": {
             "type": "string",
             "source": "html",
-            "selector": ".text-content"
+            "selector": ".text-content",
+			"default": "You are being invited to take part in a research study. This study is a multi-site study, meaning it will take place at several different locations. Because this is a multi-site study this consent form includes two parts. Part 1 of this consent form is the Master Consent and includes information that applies to all study sites. Part 2 of the consent form is the Study Site Information and includes information specific to the study site where you are being asked to enroll. Both parts together are the legal consent form and must be provided to you."
         }
     } 
 }

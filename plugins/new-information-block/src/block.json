@@ -13,5 +13,11 @@
 	"textdomain": "new-information-block",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css"
+	"style": "file:./style-index.css",
+	"attributes": {
+		"content": {
+			"type": "string",
+			"default": "<strong>What if new information becomes available?</strong><br> During the course of this study, we may find more information that could be important to you. This includes information that might cause you to change your mind about being in the study. We will notify you as soon as possible if such information becomes available."
+		}
+	}
 }

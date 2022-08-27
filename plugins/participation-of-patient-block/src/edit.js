@@ -12,7 +12,6 @@
   * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
   */
  import { useBlockProps, RichText } from '@wordpress/block-editor';
- import {TextareaControl} from '@wordpress/components';
  
  /**
   * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -30,27 +29,51 @@
   *
   * @return {WPElement} Element to render.
   */
- var el = wp.element.createElement;
- var ClassicEdit;
+ 
+//  export default function Edit({attributes, setAttributes}) {
+// 	// var blockProps = useBlockProps();
+// 	// 	var rt = wp.element.createElement( RichText, Object.assign( blockProps, {
+//     //         tagName: 'p',  // The tag here is the element output and editable in the admin
+//     //         value: props.attributes.content, // Any existing content, either from the database or an attribute default
+//     //         allowedFormats: [ 'core/bold', 'core/italic' ], // Allow the content to be made bold or italic, but do not allow other formatting options
+//     //         onChange: function( content ) {
+//     //             setAttributes( { content: content } ); // Store updated content as a block attribute
+//     //         },
+//     //         placeholder: __( 'Participants of patients...' ), // Display this text before any content has been added by the user
+//     //     } ) );
+ 
+//     return (
+//         <div { ...useBlockProps() }>
+//             <TextareaControl
+//                 label={ __( 'Participation of patients') }
+//                 onChange={ ( val ) => setAttributes( { message: val } ) }
+//             >
+// 				<RichText.Content value={ attributes.message } allowedFormats={['core/bold', 'core/italic' ]}/>
+// 			</TextareaControl>
+//         </div>
+//     );
+// 		// wp.element.createElement( TextareaControl, Object.assign( blockProps, {
+			
+// 			// contenteditable : true,
+// 			// value :  props.attributes.content
+// 		// }), rt); 
+// }
 
- export default function Edit(props) {
+export default function Edit(props) {
 	var blockProps = useBlockProps();
-		var rt = wp.element.createElement( RichText, Object.assign( blockProps, {
+ 
+        return <div class="wp-block-create-block-participation-of-patient-block">Participation of patients block{wp.element.createElement( RichText, Object.assign( blockProps, {
             tagName: 'p',  // The tag here is the element output and editable in the admin
+			className: 'custom-block-rt-content',
             value: props.attributes.content, // Any existing content, either from the database or an attribute default
             allowedFormats: [ 'core/bold', 'core/italic' ], // Allow the content to be made bold or italic, but do not allow other formatting options
             onChange: function( content ) {
                 props.setAttributes( { content: content } ); // Store updated content as a block attribute
             },
-            placeholder: __( 'Participants of patients...' ), // Display this text before any content has been added by the user
-        } ) );
- 
-        return wp.element.createElement( TextareaControl, Object.assign( blockProps, {
-			label: "Participation",
-			contenteditable : true,
-			value :  props.attributes.content
-		}), rt); 
+            placeholder: __( 'Enter text here...' ), // Display this text before any content has been added by the user
+        } ) )}</div>;
 }
+
 //  export default function Edit(props) {
 // 	if ( ! ClassicEdit ) {
 // 		var block = wp.blocks.getBlockType( 'core/freeform' );

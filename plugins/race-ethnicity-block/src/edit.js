@@ -29,16 +29,18 @@ import './editor.scss';
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit(props) {
+
+ export default function Edit(props) {
 	var blockProps = useBlockProps();
  
-        return wp.element.createElement( RichText, Object.assign( blockProps, {
+        return <div class="wp-block-create-block-participation-of-patient-block">Race and Ethnicity Statement{wp.element.createElement( RichText, Object.assign( blockProps, {
             tagName: 'p',  // The tag here is the element output and editable in the admin
+			className: 'custom-block-rt-content',
             value: props.attributes.content, // Any existing content, either from the database or an attribute default
             allowedFormats: [ 'core/bold', 'core/italic' ], // Allow the content to be made bold or italic, but do not allow other formatting options
             onChange: function( content ) {
                 props.setAttributes( { content: content } ); // Store updated content as a block attribute
             },
-            placeholder: __( 'Race and ethnicity statement...' ), // Display this text before any content has been added by the user
-        } ) );
+            placeholder: __( 'Enter text...' ), // Display this text before any content has been added by the user
+        } ) )}</div>;
 }
