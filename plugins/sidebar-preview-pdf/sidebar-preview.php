@@ -11,6 +11,8 @@ function prefix_enqueue_assets() {
 		'sidebar-preview', 
 	plugins_url('build/index.js', __FILE__),
 	['wp-plugins', 'wp-edit-post', 'wp-i18n','wp-element','wp-components','wp-data']);
+	
+    wp_enqueue_style( 'sidebar-preview_style', plugin_dir_url( __FILE__ ) . 'style.css');
 }
 add_action( 'enqueue_block_editor_assets', 'prefix_enqueue_assets' );
 

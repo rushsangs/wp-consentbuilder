@@ -14,7 +14,7 @@
 putenv('PATH=' . getenv('PATH') . PATH_SEPARATOR . '/usr/local/texlive/2022/bin/x86_64-linux');
 require_once(__DIR__ . "/../../../consent-builder/cb_functions.php");
 
-add_action('post_updated', 'consentbuilder_update_post', 10, 3);
+add_action('save_post', 'consentbuilder_update_post', 10, 2);
 
 
 

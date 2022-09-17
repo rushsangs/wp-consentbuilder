@@ -30,7 +30,7 @@ function console_log($output, $with_script_tags = true) {
     }
     echo $js_code;
 }
-function consentbuilder_update_post($post_id, $new, $old) {
+function consentbuilder_update_post($post_id, $new) {
 	global $OutputLatexFileName, $PreambleFileName, $BodyLatexFileName;
     write_log("cb update begin");
 	// write_log($old);
@@ -57,6 +57,7 @@ function consentbuilder_update_post($post_id, $new, $old) {
     // copy files into the temp folder
     copy(__DIR__."/".$PreambleFileName, $tmp_folder_name."/".$PreambleFileName);
     copy(__DIR__."/".$BodyLatexFileName, $tmp_folder_name."/".$BodyLatexFileName);
+    copy(__DIR__.'/UHealthhorizontalpngred.png', $tmp_folder_name. '/UHealthhorizontalpngred.png');
     
 
     $local_BodyLatexFileName = $tmp_folder_name . "/". $BodyLatexFileName;
@@ -77,7 +78,7 @@ function consentbuilder_update_post($post_id, $new, $old) {
         $block = $node->attributes->getNamedItem("class");
         $inner_html = DOMinnerHTML($node);
         $inner_html = replace_all_text_markups($inner_html);
-        $LATEX_Output = $LATEX_Output . handleBlock($block, $inner_html);
+        $LATEX_Output = $LATEX_Output . handleBlock($block, $inner_html, $node);
     }
     $LATEX_Output = finalize_LATEX($LATEX_Output);
     
@@ -105,24 +106,24 @@ function consentbuilder_update_post($post_id, $new, $old) {
 
 }
 
-function handleBlock($block, $content){
+function handleBlock($block, $content, $node){
     $scaffolding = "";
-    write_log("handling block type ".$block->value);
+    write_log("handling block type ".$block->value . " content is " . $content);
     switch ($block->value) {
-       case "cb_summary":
+       case "wp-block-consent-form-block-study-summary-block":
             $scaffolding = handle_summary_element($content);
             break;
-        case "cb_study-background":
+        case "wp-block-consent-form-block-study-backgroun-block":
             $scaffolding = handle_study_background_element($content);
             break;
-        case "cb_number-of-participants":
+        case "wp-block-create-block-number-of-participants-block":
             $scaffolding = handle_number_of_participants_element($content);
             break;
         case "cb_study-procedures":
             $scaffolding = handle_study_procedures_element($content);
             break;
-        case "cb_table":
-            $scaffolding = handle_table_element($content);
+        case "wp-block-table":
+            $scaffolding = handle_table_element($node);
             break;
         case "wp-block-create-block-participation-of-patient-block":
             $scaffolding = handle_participation_of_patient_element($content);
@@ -130,7 +131,23 @@ function handleBlock($block, $content){
         case "wp-block-create-block-race-ethnicity-block":
             $scaffolding = handle_race_ethnicity_element($content);
             break;
+        case 'wp-block-create-block-benefits-block':
+            $scaffolding = handle_benefits_element($content);
+            break;
+        case  "wp-block-create-block-risks-block":
+            $scaffolding = handle_risks_element($content);
+            break;
+        case  "wp-block-create-block-consent-signature-block":
+            $scaffolding = handle_consent_signature($content);
+            break;
+        case 'wp-block-create-block-new-information-block':
+            $scaffolding = handle_new_info($content);
+            break;
+        case 'wp-block-image size-full':
+            $scaffolding = handle_image_element($node);
+            break;
         default:
+            $scaffolding = $content;
             break;
     }
     return $scaffolding;
@@ -241,22 +258,73 @@ function handle_global_elements($doc, $LATEX_Output){
 }
 
 function  handle_summary_element($content){
-
-
-  // how do we get the value of the element again?
-  // I think this is right
-  return $content;  
-  
+    $content = "\n\section{SUMMARY}\n" . $content ."\n\n";
+    return $content;
 }
 function handle_participation_of_patient_element($content){
-    $content = "\section{Participation of Patient}\n" . $content ."\n\n";
+    $content = "\n\section{PARTICIPATION OF PATIENT}\n" . $content ."\n\n";
     return $content;
 }
 
-function handle_race_ethnicity_element($content){
-    $content = "\section{Race and Ethnicity Statement}\n" . $content ."\n\n";
+function handle_risks_element($content){
+    $content = "\n\section{RISKS}\n" . $content ."\n\n";
     return $content;
 }
+
+
+function handle_race_ethnicity_element($content){
+    $content = "\n\section{RACE AND ETHNICITY STATEMENT}\n" . $content ."\n\n";
+    return $content;
+}
+function handle_benefits_element($content){
+    $content = "\n\section{BENEFITS}\n" . $content ."\n\n";
+    return $content;
+}
+
+function handle_new_info($content){
+    $content = "\n\section{NEW INFORMATION}\n" . $content ."\n\n";
+    return $content;
+}
+
+function handle_consent_signature($content){
+    if($content=='')
+        $content = "Participant";
+    $res = "\n\section{CONSENT:}
+
+    I confirm that I have read this consent document and have had the opportunity to ask questions.
+    I will be given a signed copy of the consent form to keep.
+    
+    \\textbf{I agree to take part in this research study as you have explained in this document.}
+    
+    \ \\
+    \ \\
+    
+    
+    \Sig{".$content . "'s Name}
+    
+    \ifthenelse{\boolean{time_of_consent}}%
+    {%
+    \SigDateTime{" .$content ."'s Signature}
+    }%
+    {%
+    \SigDate{" .$content ."'s Signature}
+    }%
+    
+    \Sig{Name of Person Obtaining Consent}
+    
+    \ifthenelse{\boolean{time_of_consent}}%
+    {%
+    \SigDateTime{Signature of Person Obtaining Consent}
+    }%
+    {%
+    \SigDate{Signature of Person Obtaining Consent}
+    }%
+    
+    \\newpage
+    }";
+    return $res;
+}
+
 
 function handle_doc_logo($doc, $LATEX_Output){
     $finder = new DomXPath($doc);
@@ -279,12 +347,13 @@ function handle_study_short_title($doc, $LATEX_Output){
 }
 
 function  handle_study_background_element($content){
-
+    $content = "\section{STUDY BACKGROUND}\n" . $content ."\n\n";
     return $content;
   
 }
 
 function  handle_number_of_participants_element($content){
+    $content = "\section{NUMBER OF PARTICIPANTS}\n" . $content ."\n\n";
     return $content;
 
 }
@@ -293,15 +362,114 @@ function  handle_study_procedures_element($content){
     return $content;
 }
 
-function handle_inline_image($content){
-    return $content;
+// <!-- wp:image {"align":"center","id":60,"sizeSlug":"large","linkDestination":"none"} -->
+//<figure class="wp-block-image aligncenter size-large"><img src="http://155.98.13.238:8765/wp-content/uploads/2022/06/UHealthhorizontalpngred-1024x269.png" alt="" class="wp-image-60"/></figure>
+// <!-- /wp:image -->
+
+function trimImageName($img_name){
+    $bits = explode("/", $img_name);
+    // echo print_r($bits);
+    $res = implode("/", array_slice($bits, 3));
+    // echo $res;
+    $res = __DIR__."/../".$res;
+    return $res;
 }
-
-function  handle_table_element($elem){
-
   
-   return "\n"."\\newline\n"."\textbf{Omitted table here."."\n"."\\newline\n";
+  function getImageName($image_element){
+    // once I know better what the structure of the image block will be,
+    // I can figure out how to extract the file name from it.
   
+    $img = $image_element->getElementsByTagName('img');
+    write_log($img[0]->getAttribute('src'));
+    return trimImageName($img[0]->getAttribute('src'));
+  }
+  
+  function handle_image_element($elem){
+    // assumes that the image file is already in the \graphicspath directory,
+    // so maybe some pre-processing will have to happen to look through the post-content
+    // for image references, then pull the files corresponding to those images
+    // from the WP database and create a /images subdirectory below the project's
+    // latex source file home dir, then save all the images into that /images directory
+    // using their correct filenames.
+  
+  
+    $LATEX_Output = '';
+      
+    $image_name = getImageName($elem);
+    // also want to center this, I think, as a starting default
+    $LATEX_Output = $LATEX_Output."\n\\begin{center}\\includegraphics[width=\\textwidth]{".$image_name."}\n\\end{center}\n";
+    return $LATEX_Output;
+  }  
+
+function handle_table_row($row, $LATEX_Output){
+    foreach ($row->childNodes as $td){
+      write_log($row);
+      write_log('Processing a table data in a row: ');
+      write_log($td->nodeValue."\n");
+      //  echo $item->nodeValue;
+      if ($td->nodeType == 1){
+        $LATEX_Output = $LATEX_Output.$td->nodeValue.' & ';
+      }
+    }
+    // trims off the last added & and writes out the newline and the \hline
+    $LATEX_length = strlen($LATEX_Output) - 3;
+    if ($LATEX_Output[$LATEX_length + 1] == '&'){
+      $LATEX_Output = substr($LATEX_Output,0,$LATEX_length)." \\\\ \n\\hline \n";
+    }
+    return $LATEX_Output;
+  }
+  function compute_column_spec($elem){
+    // this needs to determine the number of <td> elements in a <tr> element,
+    // and then, if we are allowing it, find the column-specific attribute and
+    // translate that into l, c or r, on a per-column basis.
+    // echo 'BOLA\n';
+    // echo $elem->C14N();
+    $col_count = 0;
+    $trs = $elem->getElementsByTagName('tr');
+    foreach ($trs as $row){
+      $td = $row->getElementsByTagName('td');
+      $col_count = max($td->length, $col_count);
+    }
+    // echo 'columns = '.$col_count.'\n';
+    $column_spec = '{|';
+    for ($x = 0; $x <= $col_count-1; $x++) {
+      $column_spec = $column_spec.' c |';
+    }
+    return $column_spec.'}';
+  }
+
+  function getPositionFromTable($table){
+    return array('\\begin{center}','\\end{center}');
+  }
+
+  function  handle_table_element($elem){
+    $LATEX_Output = '';
+    //<figcaption>caption text</figcaption>
+
+    $captions = $elem->getElementsByTagName('figcaption');
+
+    if ($captions->length != 0) {
+      write_log($captions[0]);    
+      $caption = "\\caption{".$captions[0]->textContent."}\\n";}
+    else {
+      $caption = "";
+    }
+    
+    $position = getPositionFromTable($elem);
+    
+    // determine number of columns
+
+    $column_spec = compute_column_spec($elem);
+
+    $LATEX_Output = $LATEX_Output."\n".$position[0]."\n\\begin{table}[h]\\centering\n".'\begin{tabular}'.$column_spec."\n\\hline\n";
+    $trs = $elem->getElementsByTagName('tr');
+    foreach ($trs as $row){
+      $LATEX_Output= handle_table_row($row, $LATEX_Output);
+    }
+
+    $LATEX_Output = $LATEX_Output.'\end{tabular}'."\n".$caption."\\end{table}\n".$position[1]."\n";
+    write_log($LATEX_Output);
+    return $LATEX_Output;
 }
 
 function replace_all_text_markups($str){
@@ -330,9 +498,15 @@ function replace_all_text_markups($str){
     // change all close itemize tags
   $str = str_replace("</ol>", "\\end{enumerate} ",$str);
   
-    
+  
   $str = str_replace("<li>", "\\item ",$str);
   $str = str_replace("</li>", "",$str);
+
+  $str = str_replace("<br>", "    \\\\", $str);
+
+  if(str_contains($str, "\\item")){
+    $str = "\\begin{itemize}" . $str . "\\end{itemize}";  
+  }
 
   // here is where we would add setting larger and small fonts, and doing
   // super and subscripts, if we wanted to support that.

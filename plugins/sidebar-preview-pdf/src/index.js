@@ -22,7 +22,10 @@ let PluginMetaFields  = ( props ) => {
             >
 
             </TextControl> */}
+            {/*
             <a href={wp.data.select('core/editor').getEditedPostAttribute('meta')["prefix_text_field"]} target="_blank" rel="noopener noreferrer" id="pdf-previewer">Click here to view PDF!</a>
+            */}
+            <embed id="pdf-previewer" src={wp.data.select('core/editor').getEditedPostAttribute('meta')["prefix_text_field"]} />
         </>
     )
 }
